@@ -16,19 +16,23 @@ function ctrl_c(){
 }
 
 #variables globales
-URL_64=https://resources.kodakalaris.com/docimaging/drivers/LinuxSoftware_i2000_v4.14.x86_64.deb.tar.gz
+URL="https://resources.kodakalaris.com/docimaging/drivers/LinuxSoftware_i2000_v4.14.x86_64.deb.tar.gz"
+GZ="LinuxSoftware_i2000_v4.14.x86_64.deb.tar.gz"
+TAR="LinuxSoftware_i2000_v4.14.x86_64.deb.tar"
 
-echo -e "${yellowColor}Instalando programas ${endColor}"
-sudo apt update; sudo apt install -y simple-scan
+trap "rm -rf tar LinuxSoftware_i2000_v4.14.x86_64.deb.tar" EXIT
+
+echo -e "${yellowColor}Actualizando la cache de los repos ${endColor}"
+sudo apt update
 
 echo -e "\n${yellowColor}Descargando instaladores ${endColor}"
-wget -q "$URL_64"
+wget -q "$URL"
 
 echo -e "\n${yellowColor}Descomprimiendo el gz ${endColor}"
-gunzip LinuxSoftware_i2000_v4.14.x86_64.deb.tar.gz
+gunzip "$GZ"
 
 echo -e "\n${yellowColor}Descomprimiendo el tar ${endColor}"
-mkdir -p tar 2>/dev/null && tar -xf LinuxSoftware_i2000_v4.14.x86_64.deb.tar -C tar && cd tar
+mkdir -p tar 2>/dev/null && tar -xf "$TAR" -C tar && cd tar
 
 echo -e "\n${yellowColor}Corriendo el script ${endColor}"
 sudo ./setup

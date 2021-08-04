@@ -15,47 +15,54 @@ function ctrl_c(){
 }
 
 #variables globales
-URL_32=https://resources.kodakalaris.com/docimaging/drivers/LinuxSoftware_i2000_v4.14.i586.deb.tar.gz
-URL_64=https://resources.kodakalaris.com/docimaging/drivers/LinuxSoftware_i2000_v4.14.x86_64.deb.tar.gz
+URL_32="https://resources.kodakalaris.com/docimaging/drivers/LinuxSoftware_i2000_v4.14.i586.deb.tar.gz"
+GZ_32="LinuxSoftware_i2000_v4.14.i586.deb.tar.gz"
+TAR_32="LinuxSoftware_i2000_v4.14.i586.deb.tar"
+
+URL_64="https://resources.kodakalaris.com/docimaging/drivers/LinuxSoftware_i2000_v4.14.x86_64.deb.tar.gz"
+GZ_64="LinuxSoftware_i2000_v4.14.x86_64.deb.tar.gz"
+TAR_64="LinuxSoftware_i2000_v4.14.x86_64.deb.tar"
+
+trap "rm -rf tar LinuxSoftware_i2000_v4.14.i586.deb.tar LinuxSoftware_i2000_v4.14.x86_64.deb.tar" EXIT
 
 read -p "$(echo -e ${blueColor}Ingrese su respuesta 32/64: ${endColor})" RESPUESTA
 case "$RESPUESTA" in
   32)
-   echo -e "${yellowColor}Instalando programas ${endColor}"
-   sudo apt update; sudo apt install -y simple-scan
+   echo -e "${yellowColor}Actualizando la cache de los repos ${endColor}"
+   sudo apt update
 
    echo -e "\n${yellowColor}Descargando instaladores ${endColor}"
    wget -q "$URL_32"
 
    echo -e "\n${yellowColor}Descomprimiendo el gz ${endColor}"
-   gunzip LinuxSoftware_i2000_v4.14.i586.deb.tar.gz
+   gunzip "$GZ_32"
 
    echo -e "\n${yellowColor}Descomprimiendo el tar ${endColor}"
-   mkdir -p tar 2>/dev/null && tar -xf LinuxSoftware_i2000_v4.14.i586.deb.tar -C tar && cd tar
+   mkdir -p tar 2>/dev/null && tar -xf "$TAR_32" -C tar && cd tar
 
    echo -e "\n${yellowColor}Corriendo el script ${endColor}"
    sudo ./setup
 
-   echo -e "\n${yellowColor}Corriendo el script una vez mas ${endColor}"
+   echo -e "\n${yellowColor}Corriendo el script de nuevo ${endColor}"
    sudo ./setup
 
    echo -e "\n${yellowColor}Creando link simbolico ${endColor}"
    sudo ln -sfr /usr/lib/sane/libsane-kds* /usr/lib/i386-linux-gnu/sane
 
    echo -e "\n${greenColour}Drivers instalados conectar por USB y probar!!! ${endColor}"
-     ;;
+   ;;
   64)
-  echo -e "${yellowColor}Instalando programas ${endColor}"
-  sudo apt update; sudo apt install -y simple-scan
+  echo -e "${yellowColor}Actualizando la cache de los repos ${endColor}"
+  sudo apt update
 
   echo -e "\n${yellowColor}Descargando instaladores ${endColor}"
   wget -q "$URL_64"
 
   echo -e "\n${yellowColor}Descomprimiendo el gz ${endColor}"
-  gunzip LinuxSoftware_i2000_v4.14.x86_64.deb.tar.gz
+  gunzip "$GZ_64"
 
   echo -e "\n${yellowColor}Descomprimiendo el tar ${endColor}"
-  mkdir -p tar 2>/dev/null && tar -xf LinuxSoftware_i2000_v4.14.x86_64.deb.tar -C tar && cd tar
+  mkdir -p tar 2>/dev/null && tar -xf "$TAR_64" -C tar && cd tar
 
   echo -e "\n${yellowColor}Corriendo el script ${endColor}"
   sudo ./setup
