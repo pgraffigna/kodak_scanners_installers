@@ -29,10 +29,10 @@ read -p "$(echo -e ${blueColor}Ingrese su respuesta 32/64: ${endColor})" RESPUES
 case "$RESPUESTA" in
   32)
    echo -e "${yellowColor}Actualizando la cache de los repos ${endColor}"
-   sudo apt update
+   sudo apt-update -qq
 
    echo -e "\n${yellowColor}Descargando instaladores ${endColor}"
-   wget -q "$URL_32"
+   wget -q  --show-progress --progress=bar:force 2>&1 "$URL_32"
 
    echo -e "\n${yellowColor}Descomprimiendo el gz ${endColor}"
    gunzip "$GZ_32"
@@ -53,10 +53,10 @@ case "$RESPUESTA" in
    ;;
   64)
   echo -e "${yellowColor}Actualizando la cache de los repos ${endColor}"
-  sudo apt update
+  sudo apt-update -qq
 
   echo -e "\n${yellowColor}Descargando instaladores ${endColor}"
-  wget -q "$URL_64"
+  wget -q  --show-progress --progress=bar:force 2>&1 "$URL_64"
 
   echo -e "\n${yellowColor}Descomprimiendo el gz ${endColor}"
   gunzip "$GZ_64"

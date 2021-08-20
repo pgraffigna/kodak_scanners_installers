@@ -23,10 +23,10 @@ TAR="LinuxSoftware_i2000_v4.14.x86_64.deb.tar"
 trap "rm -rf tar LinuxSoftware_i2000_v4.14.x86_64.deb.tar" EXIT
 
 echo -e "${yellowColor}Actualizando la cache de los repos ${endColor}"
-sudo apt update
+sudo apt-update -qq
 
 echo -e "\n${yellowColor}Descargando instaladores ${endColor}"
-wget -q "$URL"
+wget -q  --show-progress --progress=bar:force 2>&1 "$URL"
 
 echo -e "\n${yellowColor}Descomprimiendo el gz ${endColor}"
 gunzip "$GZ"
@@ -38,7 +38,7 @@ echo -e "\n${yellowColor}Corriendo el script ${endColor}"
 sudo ./setup
 
 echo -e "\n${yellowColor}Reparando la instalacion ${endColor}"
-sudo apt --fix-broken install
+sudo apt-get -f install -y -qq
 
 echo -e "\n${yellowColor}Reparando las dependencias ${endColor}"
 sudo dpkg --ignore-depends=multiarch-support -i libudev0_175-0ubuntu19_amd64.deb
