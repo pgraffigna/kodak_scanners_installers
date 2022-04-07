@@ -23,7 +23,7 @@ TAR="LinuxSoftware_i2000_v4.14.x86_64.deb.tar"
 trap "rm -rf tar LinuxSoftware_i2000_v4.14.x86_64.deb.tar" EXIT
 
 echo -e "${yellowColor}Actualizando la cache de los repos ${endColor}"
-sudo apt-update -qq
+sudo apt-get update -qq
 
 echo -e "\n${yellowColor}Descargando instaladores ${endColor}"
 wget -q  --show-progress --progress=bar:force 2>&1 "$URL"
